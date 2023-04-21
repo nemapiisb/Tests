@@ -1,4 +1,5 @@
 # Tests
-
-npm install
-npx cypress open
+````shell script
+$ npm install
+$ npx cypress open
+````
