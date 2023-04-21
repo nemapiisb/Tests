@@ -1,0 +1,9 @@
+{
+  "username": "Using fixtures to represent data",
+  "email": "admin@admin",
+  "roles":  [
+    "ROLE_PORTERO",
+    "ROLE_VECINO",
+    "ROLE_ADMIN"
+  ]
+}
