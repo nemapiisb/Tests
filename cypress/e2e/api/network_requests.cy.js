@@ -1,11 +1,12 @@
+import {usersData, adminData} from '../../dataTest/data';
 context('FUNCTIONAL API TESTS', () => {
-  let apiBaseUrl = Cypress.config().baseUrl;
+  let apiBaseUrl = 'http://localhost:8080';
   beforeEach(() => {
     cy.visit('http://localhost:3000/')
   })
 
   it('API Tests functional for anuncios requests', () => {
-    cy.request('GET', apiBaseUrl+'anuncios')
+    cy.request('GET', apiBaseUrl+'/anuncios')
       .then(res => {
         res.body.forEach(elem => {
           expect(res.status).to.eq(200)
@@ -22,16 +23,16 @@ context('FUNCTIONAL API TESTS', () => {
   it('API Login tests > ADMIN', () => {
   cy.request({
     method: 'POST',
-    url: apiBaseUrl+'api/auth/signin',
+    url: apiBaseUrl+'/api/auth/signin',
     body: {
-      password: 'adminadmin',
-      username: 'admin'
+      password: adminData.adminpass,
+      username: adminData.adminname
     },
   }).then((response) => {
       expect(response).property('status').to.equal(200)
       expect(response).property('body').to.have.property('id')
-      expect(response).property('body').to.have.property('username').to.eq('admin')
-      expect(response).property('body').to.have.property('email').to.eq('admin@admin.com')
+      expect(response).property('body').to.have.property('username').to.eq(adminData.adminname)
+      expect(response).property('body').to.have.property('email').to.eq(adminData.adminmail)
       expect(response).property('body').to.have.property('roles').to.have.length(3)
       expect(response).property('body').to.have.property('accessToken').not.to.be.empty
       expect(response).property('body').to.have.property('tokenType').to.contain('Bearer')
@@ -41,16 +42,16 @@ context('FUNCTIONAL API TESTS', () => {
   it('API Login tests > VECINO', () => {
   cy.request({
     method: 'POST',
-    url: apiBaseUrl+'api/auth/signin',
+    url: apiBaseUrl+'/api/auth/signin',
     body: {
-      password: 'newuser',
-      username: 'newuser'
+      password: usersData.userpass,
+      username: usersData.username
     },
   }).then((response) => {
       expect(response).property('status').to.equal(200)
       expect(response).property('body').to.have.property('id')
-      expect(response).property('body').to.have.property('username').to.eq('newuser')
-      expect(response).property('body').to.have.property('email').to.eq('newuser@newuser.com')
+      expect(response).property('body').to.have.property('username').to.eq(usersData.username)
+      expect(response).property('body').to.have.property('email').to.eq(usersData.usermail)
       expect(response).property('body').to.have.property('roles').to.have.length(1)
       expect(response).property('body').to.have.property('accessToken').not.to.be.empty
       expect(response).property('body').to.have.property('tokenType').to.contain('Bearer')
@@ -64,7 +65,7 @@ it('API Sign In tests > VECINO', () => {
     cy.log("random mail > "+randomMail);
   cy.request({
     method: 'POST',
-    url: apiBaseUrl+'api/auth/signup',
+    url: apiBaseUrl+'/api/auth/signup',
     body: {
       email: randomMail,
       password: "testPass",
@@ -80,7 +81,7 @@ it('API Sign In tests > VECINO', () => {
 
     cy.request({
         method: 'POST',
-        url: apiBaseUrl+'api/auth/signin',
+        url: apiBaseUrl+'/api/auth/signin',
         body: {
             password: "testPass",
             username: randomUser
