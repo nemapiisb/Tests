@@ -11,7 +11,6 @@ context('E2E ADS LISTS TESTS', () => {
     cy.visit('/login');
       cy.intercept('POST', '/api/auth/signin').as('interceptLogin');
       cy.intercept('POST', '/anuncios').as('interceptSaveAd');
-      cy.wait(2000);
     cy.get(UILogin.username).click().type(adminData.adminname);
     cy.wait(2000);
     cy.get(UILogin.pass).click().type(adminData.adminpass);
@@ -26,9 +25,10 @@ context('E2E ADS LISTS TESTS', () => {
     cy.get(UIAdsList.date).should('be.visible');
     cy.get(UIAdsList.category).should('be.visible');
     cy.get(UIAdsList.id).should('be.visible');
-    cy.get(UIAdsList.addBtn).click();
     cy.wait(3000);
-    cy.get(UIAdsList.content).click().type('some content');
+    cy.get(UIAdsList.addBtn).click();
+    cy.get(UIAdsList.content).click().type('automated tests ad');
+    cy.wait(2000);
     cy.get(UIAdsList.date).click().type('04/05/2023 20:00:00');
     cy.get(UIAdsList.saveBtn).click();
     cy.wait('@interceptSaveAd').then(interception => {
